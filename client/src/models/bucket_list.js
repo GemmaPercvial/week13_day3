@@ -17,6 +17,11 @@ BucketList.prototype.bindEvents = function(){
     this.deleteDataItem(deletingItemId);
   })
 
+  PubSub.subscribe('BucketListItem:item-completed-clicked', (event) => {
+    const completedItemId = event.detail;
+
+  })
+
   this.getData();
 
 }
@@ -48,5 +53,13 @@ BucketList.prototype.deleteDataItem = function (id) {
   .catch(console.error);
 }
 
+BucketList.prototype.updateDataItem = function (id) {
+  this.request.update(id)
+  .then((data) => {
+    PubSub.publish("BucketList:data-loaded", data);
+    console.log(data);
+  })
+  .catch(console.error);
+}
 
 module.exports = BucketList;

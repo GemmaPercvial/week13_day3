@@ -19,6 +19,10 @@ BucketListItem.prototype.render = function (bucketListObject) {
   itemLocation.textContent = `Location: ${bucketListObject.location}`;
   itemDiv.appendChild(itemLocation);
 
+  const itemCompletedStatus = document.createElement('p');
+  itemCompletedStatus.textContent = `Complete: ${bucketListObject.completed}`;
+  itemDiv.appendChild(itemCompletedStatus);
+
   const itemDeleteButton = document.createElement('button');
   itemDeleteButton.textContent = 'DELETE';
   itemDiv.appendChild(itemDeleteButton);
@@ -26,6 +30,15 @@ BucketListItem.prototype.render = function (bucketListObject) {
   itemDeleteButton.addEventListener('click', (event) => {
     PubSub.publish('BucketListItem:item-delete-clicked', bucketListObject._id)
   })
+
+  const itemCompletedButton = document.createElement('button');
+  itemCompletedButton.textContent = 'Completed?';
+  itemDiv.appendChild(itemCompletedButton);
+
+  itemCompletedButton.addEventListener('click', (event) =>{
+    PubSub.publish('BucketListItem:item-completed-clicked', bucketListObject._id)
+  })
+
 
   return itemDiv;
 
