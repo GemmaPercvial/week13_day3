@@ -7,6 +7,7 @@ const BucketListDetails = function (container) {
 
 BucketListDetails.prototype.bindEvents = function () {
   PubSub.subscribe("BucketList:data-loaded", (event) => {
+    this.container.innerHTML = '';
     const bucketList = event.detail;
     this.render(bucketList);
   })

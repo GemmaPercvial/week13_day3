@@ -7,12 +7,26 @@ const BucketList = function(url){
 }
 
 BucketList.prototype.bindEvents = function(){
+  PubSub.subscribe('BucketListForm:new-item-submitted', (event) => {
+    const newItem = event.detail;
+    this.postData(newItem);
+  })
+
   this.getData();
 
 }
 
 BucketList.prototype.getData = function(){
   this.request.get()
+  .then((data) => {
+    PubSub.publish("BucketList:data-loaded", data);
+    console.log(data);
+  })
+  .catch(console.error);
+}
+
+BucketList.prototype.postData = function (newItem) {
+  this.request.post(newItem)
   .then((data) => {
     PubSub.publish("BucketList:data-loaded", data);
     console.log(data);
