@@ -1,3 +1,5 @@
+const PubSub = require('../helpers/pub_sub');
+
 const BucketListItem = function () {
 
 }
@@ -16,6 +18,14 @@ BucketListItem.prototype.render = function (bucketListObject) {
   const itemLocation = document.createElement('p');
   itemLocation.textContent = `Location: ${bucketListObject.location}`;
   itemDiv.appendChild(itemLocation);
+
+  const itemDeleteButton = document.createElement('button');
+  itemDeleteButton.textContent = 'DELETE';
+  itemDiv.appendChild(itemDeleteButton);
+
+  itemDeleteButton.addEventListener('click', (event) => {
+    PubSub.publish('BucketListItem:item-delete-clicked', bucketListObject._id)
+  })
 
   return itemDiv;
 
